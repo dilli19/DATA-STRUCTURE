@@ -1,0 +1,35 @@
+#include <stdio.h>
+#include <stdint.h> // Include this header for int32_t
+
+int32_t reverse(int32_t x) {
+    int32_t reversed = 0;
+    while (x != 0) {
+        int32_t lastDigit = x % 10;
+
+        if (reversed > INT32_MAX / 10 || (reversed == INT32_MAX / 10 && lastDigit > 7)) {
+            return 0;
+        }
+        if (reversed < INT32_MIN / 10 || (reversed == INT32_MIN / 10 && lastDigit < -8)) {
+            return 0;
+        }
+
+        reversed = reversed * 10 + lastDigit;
+        x /= 10;
+    }
+    return reversed;
+}
+
+int main() {
+    int32_t num = 12345;
+
+    int32_t reversed = reverse(num);
+    
+    if (reversed == 0) {
+        printf("Reverse causes overflow or underflow.\n");
+    } else {
+        printf("Original: %d\n", num);
+        printf("Reversed: %d\n", reversed);
+    }
+
+    return 0;
+}
